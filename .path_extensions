@@ -1,17 +1,17 @@
 export PATH="$PATH:$COURSIER/bin"
 export PATH="$PATH:$GOPATH/bin"
 
-if [ $(hostname) == "$UBUNTU_HOSTNAME" ]; then
+if [ $(uname) == "$UBUNTU_UNAME" ]; then
     export PATH="$PATH:$HOME/bin"
     export PATH="$PATH:$JAVA_HOME/bin"
     export PATH="$PATH:$ANDROID_NDK_HOME"
 
-elif [ $(hostname) == "$MACOS_HOSTNAME" ]; then
+elif [ $(uname) == "$MACOS_UNAME" ]; then
     # setting path for python;
     # original version saved in .bash_profile.pysave
     export PATH="$PATH:/Library/Frameworks/Python.framework/Versions/3.10/bin"
 
 else
-    echo "Unrecognized machine; hostname $(hostname)"
+    echo "Unrecognized machine; uname $(uname), expected $UBUNTU_UNAME or $MACOS_UNAME"
 
 fi

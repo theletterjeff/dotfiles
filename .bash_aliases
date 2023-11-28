@@ -42,7 +42,7 @@ toggl-t ()
 }
 
 # ubuntu config
-if [ "$(hostname)" == "$UBUNTU_HOSTNAME" ]; then
+if [ "$(uname)" == "$UBUNTU_UNAME" ]; then
 
     # databases
     alias psql-stop='sudo systemctl stop postgresql'
@@ -58,10 +58,10 @@ if [ "$(hostname)" == "$UBUNTU_HOSTNAME" ]; then
     alias dewr="$HOME/tools/dewr/dewr.sh sh"
 
 # macos config
-elif [ "$(hostname)" == "$MACOS_HOSTNAME" ]; then
+elif [ "$(uname)" == "$MACOS_UNAME" ]; then
     :
 
 else
-    echo "Unrecognized machine; hostname $(hostname)"
+    echo "Unrecognized machine; uname $(uname), expected $UBUNTU_UNAME or $MACOS_UNAME"
 
 fi

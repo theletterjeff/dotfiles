@@ -1,8 +1,8 @@
 # $HOME/.bashrc: executed by bash(1) for non-login shells.
 
 # load modular variable files
-[ -f $HOME/.bash_aliases ] && . $HOME/.bash_aliases
 [ -f $HOME/.env_vars ] && . $HOME/.env_vars
+[ -f $HOME/.bash_aliases ] && . $HOME/.bash_aliases
 [ -f $HOME/.path_extensions ] && . $HOME/.path_extensions
 
 # If not running interactively, don't do anything
@@ -70,7 +70,7 @@ fi
 [ -f /etc/profile.d/bash_completion.sh ] && source /etc/profile.d/bash_completion.sh
 
 # Ubuntu config
-if [ "$(hostname)" = "$UBUNTU_HOSTNAME" ]; then
+if [ "$(uname)" = "$UBUNTU_UNAME" ]; then
 
     # set variable identifying the chroot you work in (used in the prompt below)
     if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
@@ -94,12 +94,12 @@ if [ "$(hostname)" = "$UBUNTU_HOSTNAME" ]; then
     esac
 
 # MacOS config
-elif [ "$(hostname)" = "$MACOS_HOSTNAME" ]; then
+elif [ "$(uname)" = "$MACOS_UNAME" ]; then
     
     [ -s $NVM_DIR/nvm.sh ] && . $NVM_DIR/nvm.sh
     [ -s $NVM_DIR/bash_completion ] && . $NVM_DIR/bash_completion
 
 else
-    echo "$0: Unrecognized machine; hostname $(hostname)"
+    echo "$0: Unrecognized machine; uname $(uname), expected $UBUNTU_UNAME or $MACOS_UNAME"
 
 fi

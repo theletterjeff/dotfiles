@@ -1,0 +1,7 @@
+-v $HOME/.bazelrc:/home/builduser/.bazelrc
+-v $HOME/.bash_aliases:/home/builduser/.bash_aliases
+-v $HOME/.env_vars:/home/builduser/.env_vars
+-v $HOME/.cache/bazel:/home/builduser/.cache/bazel
+-v $ROOTDIR/etc/environment:/etc/environment
+-v $HOME/.aws:/home/builduser/.aws
+-e AWS_SDK_LOAD_CONFIG=1

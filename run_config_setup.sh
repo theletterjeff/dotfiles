@@ -8,6 +8,6 @@ else
 fi
 
 # add symlink to nvchad_custom
-if ![ -L "$HOME/.config/nvim/lua/custom" ]; then
-    ln -s "$HOME/nvchad_custom" "$HOME/.config/nvim/lua/custom"
+if [ ! -L "$HOME/.config/nvim/lua/custom" ]; then
+    ln -s "$HOME/.nvchad_custom" "$HOME/.config/nvim/lua/custom"
 fi

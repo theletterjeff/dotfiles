@@ -47,15 +47,15 @@ if [ "$(uname)" == "$UBUNTU_UNAME" ]; then
     # databases
     alias psql-stop='sudo systemctl stop postgresql'
     alias psql-start='sudo service postgresql start'
-    alias dc-up-d="$HOME/docker-compose/dc up -d"
-    alias dc-up="$HOME/docker-compose/dc up"
-    alias dc-down="$HOME/docker-compose/dc down"
+    alias dc-up-d="$DC_DIR/dc up -d"
+    alias dc-up="$DC_DIR/docker-compose/dc up"
+    alias dc-down="$DC_DIR/docker-compose/dc down"
     alias psql-geo='psql -h localhost -p 5432 -U vistar geo'
     alias psql-traf='psql -h localhost -p 5432 -U vistar api-development'
     alias psql-dmp='psql -h localhost -p 5432 -U vistar production'
     
     # codebase
-    alias dewr="$HOME/tools/dewr/dewr.sh sh"
+    alias dewr="$VISTAR_DIR/tools/dewr/dewr.sh sh"
 
 # macos config
 elif [ "$(uname)" == "$MACOS_UNAME" ]; then

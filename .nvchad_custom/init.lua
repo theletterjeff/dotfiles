@@ -1,6 +1,7 @@
 vim.o.number = true
 vim.opt.colorcolumn = "80"
 vim.o.statusline = vim.o.statusline .. "%f"
+vim.o.ignorecase = false
 
 -- indents
 vim.api.nvim_create_autocmd("FileType", {

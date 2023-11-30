@@ -1,0 +1,4 @@
+[include]
+  path = "~/.gitconfig.d/aliases"
+[include]
+  path = "~/.gitconfig.d/users"

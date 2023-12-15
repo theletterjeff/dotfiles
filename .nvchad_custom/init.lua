@@ -9,7 +9,7 @@ vim.o.ignorecase = false
 
 -- indents
 local function set_indent(fileType, tabSize, expand_tab)
-	expand_tab = expand_tab or false
+	expand_tab = expand_tab or true
   vim.api.nvim_create_autocmd("FileType", {
     pattern = fileType,
     callback = function()
@@ -20,7 +20,7 @@ local function set_indent(fileType, tabSize, expand_tab)
   })
 end
 
-vim.o.expandtab = false -- use spaces instead of tabs
+vim.o.expandtab = true -- use spaces instead of tabs
 
 set_indent("go", 4)
 set_indent("lua", 2)

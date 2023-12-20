@@ -1,11 +1,12 @@
 [alias]
 	logg = log --graph --oneline -n 20
-	pushh = push origin HEAD:refs/for/develop
 	recommit = !git add . && git commit --amend --no-edit
 	stashh = stash --include-untracked
 	stat = show --stat HEAD
   redev = "!git checkout develop && git pull origin && git checkout - &&" \
            "git rebase develop"
+	pushh = "!git checkout develop && git pull origin && git checkout - &&" \
+					 "git rebase develop && git push origin HEAD:refs/for/develop"
   repush = "!git add . && git commit --amend --no-edit &&" \
             "git checkout develop && git pull origin && git checkout - &&" \
             "git rebase develop && git push origin HEAD:refs/for/develop"

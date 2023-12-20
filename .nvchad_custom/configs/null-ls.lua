@@ -6,12 +6,12 @@ local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 local opts = {
   sources = {
-    -- go
-    null_ls.builtins.formatting.gofmt.with({
-			extra_args = { "-s" },
-		}),
-    null_ls.builtins.formatting.goimports_reviser,
-    null_ls.builtins.formatting.golines,
+  --   -- go
+  --   null_ls.builtins.formatting.gofmt.with({
+		-- 	extra_args = { "-s" },
+		-- }),
+  --   null_ls.builtins.formatting.goimports_reviser,
+  --   null_ls.builtins.formatting.golines,
 
     -- python
     null_ls.builtins.diagnostics.mypy,

@@ -33,9 +33,13 @@ M.general = {
   },
 }
 
-M.lsp = {
+M.go = {
   n = {
-    ["<leader>gd"] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "GoToDefinition" },
+    ["<leader>gd"] = { "<Plug>(go-def-split)", "GoToDefinition" },
+    ["<leader>gr"] = { "<Plug>(go-referrers)", "GoReferrers" },
+    ["<leader>gi"] = { "<Plug>(go-implements)", "GoImplements" },
+    ["<leader>gn"] = { "<Plug>(go-rename)", "GoRename" },
+    ["<leader>gx"] = { "<Plug>(go-extract)", "GoExtract" },
   }
 }
 
@@ -97,8 +101,5 @@ M.telescope = {
     }
   }
 }
-
--- TODO: add gopher mappings
-M.gopher = {}
 
 return M

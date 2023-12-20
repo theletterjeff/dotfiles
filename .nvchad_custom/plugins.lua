@@ -13,19 +13,6 @@ local plugins = {
     },
   },
 
-  -- go tooling support
-  {
-    "olexsmir/gopher.nvim",
-    ft = "go",
-    config = function(_, opts)
-      require("gopher").setup(opts)
-      require("core.utils").load_mappings("gopher")
-    end,
-    build = function()
-      vim.cmd [[silent! GoInstallDeps]]
-    end,
-  },
-
   -- debugging
   {
     "mfussenegger/nvim-dap",
@@ -89,6 +76,20 @@ local plugins = {
       return require "custom.configs.null-ls"
     end,
   },
+  {
+    "fatih/vim-go",
+    ft = "go",
+    build = function()
+      vim.cmd("GoInstallBinaries")
+    end,
+    config = function()
+      vim.g.go_fmt_command = "gofmt"
+      vim.g.go_fmt_options = "-s"
+      vim.g.go_imports_command = "goimports"
+      vim.g.go_imports_autosave = 0
+    end,
+  },
+
 
   -- git
   {

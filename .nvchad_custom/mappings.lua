@@ -102,4 +102,10 @@ M.telescope = {
   }
 }
 
+M.triptych = {
+  n = {
+    ["<leader>ft"] = { ":Triptych<CR>", "Triptych" },
+  }
+}
+
 return M

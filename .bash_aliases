@@ -65,7 +65,7 @@ if [ "$(uname)" == "$UBUNTU_UNAME" ]; then
     # vistar DBs
     alias psql-geo='psql -h localhost -p 5432 -U vistar geo'
     alias psql-traf='psql -h localhost -p 5432 -U vistar api-development'
-    alias psql-dmp='psql -h localhost -p 5432 -U vistar production'
+    alias psql-dmp='psql -h localhost -p 5432 -U vistar dmp'
 
     # db refreshes
     alias db-ref-traf="$DC_DIR/dc-run trafficking /db-refresh && \

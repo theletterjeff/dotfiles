@@ -1,5 +1,5 @@
 # ls
-alias ll='ls -alF'
+alias ll='ls -alFh'
 alias la='la -A'
 alias l='ls -CF'
 
@@ -72,7 +72,7 @@ if [ "$(uname)" == "$UBUNTU_UNAME" ]; then
         $DC_DIR/dc-run trafficking /db-refresh-change-history"
     alias db-ref-inv="$DC_DIR/dc-run inventory_api /db-refresh && \
         $DC_DIR/dc-run inventory_api /db-refresh-creative"
-    alias db-ref-geo="DC_DIR/dc-run trafficking /db-refresh-geo"
+    alias db-ref-geo="$DC_DIR/dc-run trafficking /db-refresh-geo"
     alias db-ref-full="db-ref-traf && db-ref-inv && db-ref-geo"
     
     # codebase

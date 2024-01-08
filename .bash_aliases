@@ -33,7 +33,7 @@ alias toggl-i='toggl start "Inbox Maintenance" -o "Inbox Maintenance"'
 alias toggl-c='toggl start Chores -o Break'
 alias toggl-p='toggl start Parenting -o Break'
 alias toggl-demos='toggl start Demos -o Meetings'
-alias toggl-ls='toggl ls | awk -F '  +' '{print $1}' | sort | uniq'
+alias toggl-ls='toggl ls | awk -F '\''  +'\'' '\''{print $1}'\'' | sort | uniq'                                                                                                                                                                                                                                                                                                        
 toggl-t ()
 {
     toggl start "$1" -o Ticket

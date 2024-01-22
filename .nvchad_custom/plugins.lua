@@ -90,7 +90,6 @@ local plugins = {
     end,
   },
 
-
   -- git
   {
     "tpope/vim-fugitive",

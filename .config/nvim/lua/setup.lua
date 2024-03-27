@@ -1,3 +1,4 @@
+print(vim.fn.stdpath("data") .. "/lazy/lazy.nvim")
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -16,5 +17,8 @@ local theme = require("themes").current_theme
 require("lazy").setup("plugins", {
   install = {
     colorscheme = { theme.current_theme },
+  },
+  diff = {
+    cmd = "terminal_git",
   },
 })

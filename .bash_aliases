@@ -1,5 +1,5 @@
 # ls
-alias ll='ls -alFh'
+
 alias la='la -A'
 alias l='ls -CF'
 
@@ -34,7 +34,7 @@ alias toggl-c='toggl start Chores -o Break'
 alias toggl-p='toggl start Parenting -o Break'
 alias toggl-demos='toggl start Demos -o Meetings'
 alias toggl-ls='toggl ls | awk -F '\''  +'\'' '\''{print $1}'\'' | sort | uniq'
-
+alias toggl-v='toggl start Vim -o "Dev Env"'
 toggl-t ()
 {
     toggl start "$1" -o Ticket

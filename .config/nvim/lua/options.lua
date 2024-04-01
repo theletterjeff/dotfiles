@@ -14,12 +14,32 @@ o.cursorline = true
 o.cursorlineopt = "number"
 o.colorcolumn = "80"
 
--- Indenting
-o.expandtab = true
-o.shiftwidth = 2
-o.smartindent = true
-o.tabstop = 2
-o.softtabstop = 2
+-- indents
+local function set_indent(file_pattern, tab_size, expand_tab)
+	expand_tab = expand_tab or true
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = file_pattern,
+    callback = function()
+      vim.bo.tabstop = tab_size
+      vim.bo.shiftwidth = tab_size
+			vim.bo.expandtab = expand_tab
+    end,
+  })
+end
+
+vim.o.expandtab = true -- use spaces instead of tabs
+
+set_indent("bzl", 2)
+set_indent("go", 4, false)
+set_indent("lua", 2)
+set_indent("markdown", 4)
+set_indent("proto", 2)
+set_indent("python", 2)
+set_indent("scala", 4)
+set_indent("sh", 4)
+set_indent("sql", 4)
+set_indent("typescript", 2)
+set_indent("typescriptreact", 2)
 
 opt.fillchars = { eob = " " }
 o.ignorecase = true

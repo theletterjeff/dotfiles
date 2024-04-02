@@ -13,6 +13,7 @@ o.clipboard = "unnamedplus"
 o.cursorline = true
 o.cursorlineopt = "number"
 o.colorcolumn = "80"
+g.rainbow = 1
 
 -- indents
 local function set_indent(file_pattern, tab_size, expand_tab)
@@ -34,12 +35,22 @@ set_indent("go", 4, false)
 set_indent("lua", 2)
 set_indent("markdown", 4)
 set_indent("proto", 2)
-set_indent("python", 2)
 set_indent("scala", 4)
 set_indent("sh", 4)
 set_indent("sql", 4)
 set_indent("typescript", 2)
 set_indent("typescriptreact", 2)
+
+-- python indent is os-specific
+-- (vistar/linux is 2, personal/mac is 4)
+local os_name = os.getenv("OSTYPE") or io.popen("uname"):read("*l")
+if os_name:lower():find("darwin") then
+  set_indent("python", 4)
+elseif os_name:lower():find("linux") then
+  set_indent("python", 2)
+else
+  print("Unknown OS")
+end
 
 opt.fillchars = { eob = " " }
 o.ignorecase = true
@@ -50,7 +61,6 @@ o.mouse = "a"
 o.number = true
 o.relativenumber = true
 o.numberwidth = 2
-o.ruler = false
 
 -- disable nvim intro
 opt.shortmess:append "sI"
@@ -75,5 +85,4 @@ vim.g["loaded_perl_provider"] = 0
 vim.g["loaded_ruby_provider"] = 0
 
 -- add binaries installed by mason.nvim to path
-local is_windows = vim.fn.has("win32") ~= 0
-vim.env.PATH = vim.fn.stdpath "data" .. "/mason/bin" .. (is_windows and ";" or ":") .. vim.env.PATH
+vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH

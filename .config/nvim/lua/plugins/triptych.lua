@@ -14,6 +14,7 @@ return {
         line_numbers = {
           relative = true,
         },
+        show_hidden = true,
       },
     })
   end,

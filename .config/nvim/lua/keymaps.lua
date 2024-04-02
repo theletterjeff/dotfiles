@@ -15,38 +15,6 @@ register({
   ["<C-j>"] = { "<C-w>j", "Move to bottom window" },
   ["<C-k>"] = { "<C-w>k", "Move to top window" },
   ["<leader>wc"] = { "<C-w>c", "Close window" },
-
-  -- lsp
-  ["<leader>kd"] = {
-    function()
-      vim.lsp.buf.definition()
-    end,
-    "Go to definition",
-  },
-  ["<leader>ke"] = {
-    function()
-      vim.lsp.buf.declaration()
-    end,
-    "Go to declaration",
-  },
-  ["<leader>kh"] = {
-    function()
-      vim.lsp.buf.hover()
-    end,
-    "LSP hover information",
-  },
-  ["<leader>ki"] = {
-    function()
-      vim.lsp.buf.implementation()
-    end,
-    "Go to implementation",
-  },
-  ["<leader>ks"] = {
-    function()
-      vim.lsp.buf.signature_help()
-    end,
-    "LSP show signature help",
-  },
 }, {
   mode = "n",
   noremap = true,

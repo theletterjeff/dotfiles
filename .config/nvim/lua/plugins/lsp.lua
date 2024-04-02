@@ -2,7 +2,13 @@ local mason = {
 	"williamboman/mason.nvim",
 	dependencies = { "williamboman/mason-lspconfig.nvim" },
 	keys = {
-		{ "<leader>li", desc = "Open mason", "<cmd>Mason<cr>" },
+    { "<leader>kd", desc = "Go to definition", vim.lsp.buf.definition },
+    { "<leader>ke", desc = "Go to declaration", vim.lsp.buf.declaration },
+    { "<leader>kh", desc = "LSP hover information", vim.lsp.buf.hover },
+    { "<leader>km", desc = "Go to implementation", vim.lsp.buf.implementation },
+    { "<leader>ks", desc = "LSP show signature help", vim.lsp.buf.signature_help },
+    { "<leader>kn", desc = "Rename symbol", vim.lsp.buf.rename },
+    { "<leader>kr", desc = "List references", vim.lsp.buf.references },
 	},
 	config = function()
 		require("mason").setup()

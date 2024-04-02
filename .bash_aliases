@@ -1,5 +1,5 @@
 # ls
-
+alias ll='ls -la'
 alias la='la -A'
 alias l='ls -CF'
 

@@ -2,13 +2,23 @@ return {
   "simonmclean/triptych.nvim",
   event = "VeryLazy",
   dependencies = {
-    "nvim-lua/plenary.nvim", -- required
+    "nvim-lua/plenary.nvim",       -- required
     "nvim-tree/nvim-web-devicons", -- optional
   },
   config = function()
     require("triptych").setup({
       mappings = {
         quit = "<esc><esc>",
+      },
+      extension_mappings = {
+        ['<leader>fw'] = {
+          mode = 'n',
+          fn = function(target)
+            require 'telescope.builtin'.live_grep {
+              search_dirs = { target.path }
+            }
+          end
+        }
       },
       options = {
         line_numbers = {

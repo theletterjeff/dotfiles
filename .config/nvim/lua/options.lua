@@ -5,25 +5,26 @@ local g = vim.g
 -------------------------------------- globals -----------------------------------------
 g.toggle_theme_icon = "   "
 
--------------------------------------- options ------------------------------------------
+-------------------------------------- options -----------------------------------------
+o.shell = "/usr/bin/bash -i"
 o.laststatus = 3
 o.showmode = false
 
 o.clipboard = "unnamedplus"
 o.cursorline = true
-o.cursorlineopt = "number"
+o.cursorlineopt = "both"
 o.colorcolumn = "80"
 g.rainbow = 1
 
 -- indents
 local function set_indent(file_pattern, tab_size, expand_tab)
-	expand_tab = expand_tab or true
+  expand_tab = expand_tab or true
   vim.api.nvim_create_autocmd("FileType", {
     pattern = file_pattern,
     callback = function()
       vim.bo.tabstop = tab_size
       vim.bo.shiftwidth = tab_size
-			vim.bo.expandtab = expand_tab
+      vim.bo.expandtab = expand_tab
     end,
   })
 end

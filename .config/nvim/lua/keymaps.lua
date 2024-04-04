@@ -40,3 +40,12 @@ register({
   mode = "t",
   noremap = true,
 })
+
+-- VISUAL MODE --
+register({
+  ["<"] = { "<gv", "Decrease indent" },
+  [">"] = { ">gv", "Increase indent" },
+}, {
+  mode = "v",
+  noremap = true,
+})

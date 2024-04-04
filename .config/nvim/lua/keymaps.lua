@@ -15,6 +15,8 @@ register({
   ["<C-j>"] = { "<C-w>j", "Move to bottom window" },
   ["<C-k>"] = { "<C-w>k", "Move to top window" },
   ["<leader>wc"] = { "<C-w>c", "Close window" },
+
+  ["<leader>cp"] = { "<cmd>let @+=expand('%')<cr>", "Copy path" },
 }, {
   mode = "n",
   noremap = true,

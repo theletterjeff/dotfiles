@@ -21,7 +21,7 @@ return {
       },
       mapping = cmp.mapping.preset.insert({
         ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<Tab>"] = cmp.mapping.confirm({ select = true }),
       }),
       sources = {
         { name = "nvim_lsp", group_index = 1 },

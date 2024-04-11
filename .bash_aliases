@@ -27,6 +27,7 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # toggl
 alias toggl-b='toggl start Break -o Break'
+alias toggl-cr='toggl start "Code Review" -o "Code Review"'
 alias toggl-su='toggl start "Stand Up" -o Meetings'
 alias toggl-l='toggl start Lunch -o Break'
 alias toggl-i='toggl start "Inbox Maintenance" -o "Inbox Maintenance"'
@@ -35,6 +36,7 @@ alias toggl-p='toggl start Parenting -o Break'
 alias toggl-demos='toggl start Demos -o Meetings'
 alias toggl-ls='toggl ls | awk -F '\''  +'\'' '\''{print $1}'\'' | sort | uniq'
 alias toggl-v='toggl start Vim -o "Dev Env"'
+alias toggl-e='toggl start Errand -o Break'
 toggl-t ()
 {
     toggl start "$1" -o Ticket
@@ -75,7 +77,7 @@ if [ "$(uname)" == "$UBUNTU_UNAME" ]; then
         $DC_DIR/dc-run inventory_api /db-refresh-creative"
     alias db-ref-geo="$DC_DIR/dc-run trafficking /db-refresh-geo"
     alias db-ref-full="db-ref-traf && db-ref-inv && db-ref-geo"
-    
+
     # codebase
     alias dewr="$VISTAR_DIR/tools/dewr/dewr.sh sh"
 

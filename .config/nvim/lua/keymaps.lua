@@ -5,9 +5,15 @@ register({
   ["<esc>"] = { "<cmd>noh<cr>", "Clear highlights" },
 
   -- buffer operations
-  ["<leader>x"] = { "<cmd>bd!<cr>", "Delete buffer" },
+  ["<leader>x"] = {
+    function()
+      require("utils").close_buffer_keep_window()
+    end,
+    "Delete buffer",
+  },
   ["<tab>"] = { "<cmd>bnext<cr>", "Next buffer" },
   ["<S-tab>"] = { "<cmd>bprev<cr>", "Previous buffer" },
+  ["<leader>bb"] = { "<cmd>b#<cr>", "Last visited buffer" },
 
   -- window operations
   ["<C-h>"] = { "<C-w>h", "Move to left window" },
@@ -17,6 +23,8 @@ register({
   ["<leader>wc"] = { "<C-w>c", "Close window" },
 
   ["<leader>cp"] = { "<cmd>let @+=expand('%')<cr>", "Copy path" },
+  ["<"] = { "<S-v><", "Decrease indent" }, -- TODO: speed up
+  [">"] = { "<S-v>>", "Increase indent" }, -- TODO: speed up
 }, {
   mode = "n",
   noremap = true,

@@ -9,7 +9,7 @@ if not vim.loop.fs_stat(lazypath) then
     "--filter=blob:none",
     "--single-branch",
     "https://github.com/folke/lazy.nvim.git",
-    "lazypath",
+    lazypath,
   })
 end
 vim.opt.runtimepath:prepend(lazypath)

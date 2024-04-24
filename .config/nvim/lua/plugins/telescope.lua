@@ -34,8 +34,19 @@ return {
       end,
       desc = "Live grep (args)",
     },
-    { "<leader>fw", "<cmd>Telescope live_grep<CR>", desc = "Live grep" },
-    { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Find file in buffers" },
-    { "<leader>fo", "<cmd>Telescope oldfiles<CR>", desc = "Find recent file" },
+    { "<leader>fw", "<cmd>Telescope live_grep<CR>",  desc = "Live grep" },
+    { "<leader>fb", "<cmd>Telescope buffers<cr>",    desc = "Find file in buffers" },
+    { "<leader>fo", "<cmd>Telescope oldfiles<CR>",   desc = "Find recent file" },
   },
+  config = function()
+    local actions = require("telescope.actions")
+    require("telescope").setup({
+      defaults = {
+        mappings = {
+          i = { ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist },
+          n = {},
+        },
+      },
+    })
+  end,
 }

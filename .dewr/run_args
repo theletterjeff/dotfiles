@@ -6,4 +6,5 @@
 -v $HOME/.bazelrc:/home/builduser/.bazelrc
 -v $HOME/.cache/bazel:/home/builduser/.cache/bazel
 -v $HOME/.env_vars:/home/builduser/.env_vars
+-v $HOME/.config:/home/builduser/.config
 -v $ROOTDIR/etc/environment:/etc/environment

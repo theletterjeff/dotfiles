@@ -31,12 +31,13 @@ end
 
 vim.o.expandtab = true -- use spaces instead of tabs
 
-set_indent("bzl", 2)
+set_indent("bzl", 4)
+set_indent("confg", 4)
 set_indent("go", 4, false)
 set_indent("lua", 2)
 set_indent("markdown", 4)
 set_indent("proto", 2)
-set_indent("scala", 4)
+set_indent("scala", 2)
 set_indent("sh", 4)
 set_indent("sql", 4)
 set_indent("typescript", 2)

@@ -19,9 +19,9 @@ local mason_lspconfig = {
   "williamboman/mason-lspconfig.nvim",
   opts = {
     ensure_installed = {
-      "gopls",
+      -- "gopls",
       "lua_ls",
-      "pyright",
+      -- "pyright",
     },
   },
   config = function(_, opts)
@@ -32,12 +32,6 @@ local mason_lspconfig = {
 local lspconfig = {
   "neovim/nvim-lspconfig",
   dependencies = {
-    {
-      "fatih/vim-go",
-      config = function()
-        vim.cmd(":GoInstallBinaries")
-      end,
-    },
     "folke/neodev.nvim",
   },
   config = function()
@@ -80,9 +74,6 @@ local lspconfig = {
         },
       },
     }
-
-    -- scala
-    lspconfig.metals.setup {}
 
     -- python
     lspconfig.pyright.setup {

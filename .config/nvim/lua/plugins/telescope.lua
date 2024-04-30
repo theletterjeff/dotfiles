@@ -2,9 +2,7 @@ return {
   'nvim-telescope/telescope.nvim',
   branch = "0.1.x",
   dependencies = {
-    {
-      "nvim-lua/plenary.nvim",
-    },
+    "nvim-lua/plenary.nvim",
     {
       "nvim-telescope/telescope-live-grep-args.nvim",
       version = "^1.0.0",
@@ -15,16 +13,13 @@ return {
     {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
-      config = function()
-        require("telescope").load_extension("fzf")
-      end,
     },
   },
   keys = {
     { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
     {
       "<leader>fa",
-      "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
+      "<cmd>Telescope find_files follow=true hidden=true<CR>",
       desc = "Find files (all)"
     },
     {
@@ -45,6 +40,14 @@ return {
         mappings = {
           i = { ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist },
           n = {},
+        },
+      },
+      extensions = {
+        fzf = {
+          fuzzy = true,
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = "ignore_case",
         },
       },
     })

@@ -12,6 +12,7 @@ return {
     local metals_config = require("metals").bare_config()
     metals_config.settings = {
       showImplicitArguments = true,
+      metalsBinaryPath = "/home/builduser/.local/share/coursier/bin/metals",
     }
     metals_config.init_options.statusBarProvider = "off"
     return metals_config

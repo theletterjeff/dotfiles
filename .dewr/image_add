@@ -1,0 +1,76 @@
+USER root
+
+# set home & user to jmartin
+ENV HOME=/home/jmartin
+RUN mv /home/builduser /home/jmartin
+RUN usermod -l jmartin builduser \
+        && usermod -d /home/jmartin jmartin \
+        && groupmod -n jmartin builduser
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        jq \
+        python3.9 \
+        python3-pip \
+        && apt-get clean && rm -rf /var/lib/apt/lists/* && update-ca-certificates -f
+
+# set correct python version
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 \
+        && update-alternatives --set python3 /usr/bin/python3.9 \
+        && update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1 \
+        && update-alternatives --set python /usr/bin/python3.9
+
+
+# nvim
+RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
+        && rm -rf /opt/nvim \
+        && tar -C /opt -xvf nvim-linux64.tar.gz
+
+# ripgrep (required for telescope in nvim)
+RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb \
+        && dpkg -i ripgrep_13.0.0_amd64.deb
+
+# fzf
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf \
+        && $HOME/.fzf/install
+ENV PATH="$PATH:$HOME/.fzf/bin"
+
+# pip deps
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install \
+        pyright \
+        togglCli \
+        git+https://github.com/theletterjeff/chatgpt-cli \ # works with Python 3.9
+        -r requirements.txt
+
+# go
+RUN curl -LO https://go.dev/dl/go1.20.14.linux-amd64.tar.gz \
+        && rm -rf /usr/local/go \
+        && tar -C /usr/local -xzf go1.20.14.linux-amd64.tar.gz
+ENV GOROOT=/usr/local/go
+ENV GOPATH=$HOME/go
+ENV PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+# scala
+RUN curl -fL "https://github.com/coursier/launchers/raw/master/cs-x86_64-pc-linux.gz" | gzip -d > cs \
+        && chmod +x cs \
+        && mv cs /usr/local/bin \
+        && mkdir -p $HOME/.local/share/coursier \
+        && chown -R jmartin $HOME/.local/share/coursier
+USER jmartin
+RUN cs install metals
+USER root
+ENV PATH "$PATH:$HOME/.local/share/coursier/bin"
+
+# pg_config needed for bazel
+ENV PATH "$PATH:/usr/lib/postgresql/15/bin"
+
+# permissions of home directory & cache (done last to catch most subdirs)
+RUN chown -R jmartin:jmartin $HOME && chmod -R 700 $HOME \
+        && mkdir $HOME/.cache && chown -R jmartin:jmartin $HOME/.cache
+
+ENV USER=jmartin
+
+WORKDIR /opt/app
+
+ENV AWS_REGION=us-east-1
+ENV AWS_SDK_LOAD_CONFIG=1

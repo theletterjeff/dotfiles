@@ -1,10 +1,2 @@
--e AWS_SDK_LOAD_CONFIG=1
--v $HOME/.aws:/home/builduser/.aws
--v $HOME/.bash_aliases:/home/builduser/.bash_aliases
--v $HOME/.bashrc:/home/builduser/.bashrc
--v $HOME/.bash_history:/home/builduser/.bash_history
--v $HOME/.bazelrc:/home/builduser/.bazelrc
--v $HOME/.cache/bazel:/home/builduser/.cache/bazel
--v $HOME/.env_vars:/home/builduser/.env_vars
--v $HOME/.config:/home/builduser/.config
+-v $HOME:$HOME
 -v $ROOTDIR/etc/environment:/etc/environment

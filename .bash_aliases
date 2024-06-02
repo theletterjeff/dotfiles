@@ -43,8 +43,8 @@ toggl-t ()
 }
 
 # chat gpt
-alias gpt='chatgpt-cli --model=gpt-3.5-turbo-0125'
-alias gpt-4='chatgpt-cli --model=gpt-4-0125-preview'
+alias gpt='chatgpt-cli --model=gpt-3.5-turbo'
+alias gpt-4='chatgpt-cli --model=gpt-4o'
 gpt-c ()
 {
     chatgpt-cli --context="$1"

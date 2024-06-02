@@ -29,6 +29,13 @@ return {
       end,
       desc = "Live grep (args)",
     },
+    {
+      "<leader>fu",
+      function()
+        require("telescope.builtin").live_grep({ grep_open_files = true })
+      end,
+      desc = "Live grep open buffers",
+    },
     { "<leader>fw", "<cmd>Telescope live_grep<CR>",  desc = "Live grep" },
     { "<leader>fb", "<cmd>Telescope buffers<cr>",    desc = "Find file in buffers" },
     { "<leader>fo", "<cmd>Telescope oldfiles<CR>",   desc = "Find recent file" },

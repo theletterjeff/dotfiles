@@ -7,23 +7,47 @@ RUN usermod -l jmartin builduser \
         && usermod -d /home/jmartin jmartin \
         && groupmod -n jmartin builduser
 
+# timezone
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# python version
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        jq \
         python3.9 \
         python3-pip \
         && apt-get clean && rm -rf /var/lib/apt/lists/* && update-ca-certificates -f
-
-# set correct python version
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1 \
         && update-alternatives --set python3 /usr/bin/python3.9 \
         && update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1 \
         && update-alternatives --set python /usr/bin/python3.9
 
+# node/npm
+RUN apt-get update && apt-get install -y xz-utils \
+        && curl -fsSL https://nodejs.org/dist/v22.1.0/node-v22.1.0-linux-x64.tar.xz | tar -xJ \
+        && mv node-v22.1.0-linux-x64 /usr/local/lib/nodejs \
+        && ln -s /usr/local/lib/nodejs/bin/node /usr/local/bin/node \
+        && ln -s /usr/local/lib/nodejs/bin/npm /usr/local/bin/npm \
+        && ln -s /usr/local/lib/nodejs/bin/npx /usr/local/bin/npx
 
 # nvim
 RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
         && rm -rf /opt/nvim \
         && tar -C /opt -xvf nvim-linux64.tar.gz
+
+# tmux
+RUN apt-get update && apt-get install -y \
+        libevent-dev \
+        ncurses-dev \
+        build-essential \
+        bison \
+        pkg-config
+RUN curl -LO https://github.com/tmux/tmux/releases/download/3.4/tmux-3.4.tar.gz \
+        && rm -rf /opt/tmux \
+        && tar -C /opt -xvf tmux-*.tar.gz \
+        && cd /opt/tmux-* \
+        && ./configure \
+        && make \
+        && make install
 
 # ripgrep (required for telescope in nvim)
 RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb \
@@ -34,12 +58,17 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf \
         && $HOME/.fzf/install
 ENV PATH="$PATH:$HOME/.fzf/bin"
 
+# github cli
+RUN mkdir -p -m 755 /etc/apt/keyrings \
+        && wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+        && chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+        && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+        && apt update \
+        && apt install gh -y
+
 # pip deps
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install \
-        pyright \
-        togglCli \
-        git+https://github.com/theletterjeff/chatgpt-cli \ # works with Python 3.9
         -r requirements.txt
 
 # go
@@ -61,16 +90,62 @@ RUN cs install metals
 USER root
 ENV PATH "$PATH:$HOME/.local/share/coursier/bin"
 
-# pg_config needed for bazel
+# pg_config (needed for bazel)
 ENV PATH "$PATH:/usr/lib/postgresql/15/bin"
+
+# snowsql rpm
+ADD https://sfc-repo.snowflakecomputing.com/snowsql/bootstrap/1.3/linux_x86_64/snowflake-snowsql-1.3.0-1.x86_64.rpm /tmp/
+RUN apt-get update && apt-get install -y rpm \
+        && rpm -i /tmp/snowflake-snowsql-1.3.0-1.x86_64.rpm \
+        && rm /tmp/snowflake-snowsql-1.3.0-1.x86_64.rpm
+
+# cdk
+RUN npm install -g \
+        aws-cdk \
+        typescript-language-server \
+        typescript
+
+# typescript language server
+RUN npm install -g @vtsls/language-server
+ENV PATH "$PATH:/usr/local/lib/nodejs/bin"
+
+# misc. utilities
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        jq \
+        htop \
+        xclip \
+        xauth \
+        net-tools \
+        && apt-get clean && rm -rf /var/lib/apt/lists/* && update-ca-certificates -f
+RUN mkdir -p $HOME/.cache/pip \
+        && chown -R root:root $HOME/.cache/pip
+RUN python3 -m pip install \
+        basedpyright \
+        pynvim \
+        togglCli==3.0.0 \
+        git+https://github.com/theletterjeff/chatgpt-cli # works with Python 3.9
+ENV DISPLAY ":0"
 
 # permissions of home directory & cache (done last to catch most subdirs)
 RUN chown -R jmartin:jmartin $HOME && chmod -R 700 $HOME \
-        && mkdir $HOME/.cache && chown -R jmartin:jmartin $HOME/.cache
+        && chown -R jmartin:jmartin $HOME/.cache
 
-ENV USER=jmartin
+# for the integration tests (./ci/init_test_databases)
+RUN groupadd cortex || true \
+        && useradd -m -d /home/cortex -g cortex cortex || true
+RUN mkdir -p /home/cortex \
+        && chown cortex:cortex /home/cortex \
+        && usermod -d /home/cortex cortex
+RUN groupadd georest || true \
+        && useradd -m -d /home/georest -g georest georest || true
+RUN mkdir -p /home/georest \
+        && chown georest:georest /home/georest \
+        && usermod -d /home/georest georest
 
-WORKDIR /opt/app
+# bazelisk
+RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.25.0/bazelisk-linux-amd64 \
+        && chmod +x bazelisk-linux-amd64 \
+        && chown jmartin:jmartin bazelisk-linux-amd64 \
+        && mv bazelisk-linux-amd64 /usr/local/bin/bazel
 
-ENV AWS_REGION=us-east-1
-ENV AWS_SDK_LOAD_CONFIG=1
+USER jmartin

@@ -2,3 +2,10 @@
   path = "~/.gitconfig.d/aliases"
 [include]
   path = "~/.gitconfig.d/users"
+[user]
+	email = jmartin@vistarmedia.com
+	name = Jeff Martin
+[safe]
+	directory = /opt/app
+	directory = /home/jmartin/support-eng
+	directory = /home/jmartin/vistar

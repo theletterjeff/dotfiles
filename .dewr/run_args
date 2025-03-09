@@ -1,2 +1,6 @@
 -v $HOME:$HOME
 -v $ROOTDIR/etc/environment:/etc/environment
+-v $SSH_AUTH_SOCK:/ssh-agent
+-v /tmp/.X11-unix:/tmp/.X11-unix
+-e DISPLAY=$DISPLAY
+-e SSH_AUTH_SOCK=/ssh-agent

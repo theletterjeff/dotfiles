@@ -15,7 +15,7 @@ return {
           mode = 'n',
           fn = function(target)
             require 'telescope.builtin'.live_grep {
-              search_dirs = { target.path }
+              search_dirs = { target.path:match("(.*/)") }
             }
           end
         }

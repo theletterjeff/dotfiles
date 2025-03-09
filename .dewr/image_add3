@@ -1,0 +1,5 @@
+USER root
+
+RUN chmod -R 755 /usr /sbin /bin
+
+USER builduser

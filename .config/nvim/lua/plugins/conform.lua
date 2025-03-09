@@ -24,7 +24,7 @@ return {
     conform.setup({
       formatters_by_ft = {
         bzl = { "buildifier" },
-        go = { "gofmt" },
+        -- go = { "gofmt" },
         json = { "jq" },
         lua = { "stylua" },
         python = { "pyfmt" },

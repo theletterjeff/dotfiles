@@ -1,6 +1,9 @@
 local mason = {
   "williamboman/mason.nvim",
-  dependencies = { "williamboman/mason-lspconfig.nvim" },
+  dependencies = {
+    "pmizio/typescript-tools.nvim",
+    "williamboman/mason-lspconfig.nvim",
+  },
   keys = {
     { "<leader>kd", desc = "Go to definition",        vim.lsp.buf.definition },
     { "<leader>ke", desc = "Go to declaration",       vim.lsp.buf.declaration },
@@ -19,9 +22,10 @@ local mason_lspconfig = {
   "williamboman/mason-lspconfig.nvim",
   opts = {
     ensure_installed = {
-      -- "gopls",
+      "gopls",
+      "jsonnet_ls",
       "lua_ls",
-      -- "pyright",
+      "pyright",
     },
   },
   config = function(_, opts)
@@ -36,33 +40,32 @@ local lspconfig = {
   },
   config = function()
     local lspconfig = require("lspconfig")
-    local util = lspconfig.util
 
     require("neodev").setup()
 
-    -- go
-    lspconfig.gopls.setup {
-      on_new_config = function(config, new_root_dir)
-        local gopackagesdriver = new_root_dir .. "/tools/gopackagesdriver.sh"
-        if vim.loop.fs_stat(new_root_dir) ~= nil then
-          config.cmd_env = {
-            GOPACKAGESDRIVER = gopackagesdriver,
-            GOPACKAGESDRIVER_BAZEL_BUILD_FLAGS = "--strategy=GoStdlibList=local",
-          }
-        end
-      end,
-      settings = {
-        gopls = {
-          directoryFilters = {
-            "-bazel-bin",
-            "-bazel-out",
-            "-bazel-testlogs",
-            "-bazel-" .. require("utils").get_current_dir_name(),
-          },
-        },
-      },
-      root_dir = util.root_pattern("WORKSPACE"),
-    }
+    -- -- go
+    -- lspconfig.gopls.setup {
+    --   on_new_config = function(config, new_root_dir)
+    --     local gopackagesdriver = new_root_dir .. "/tools/gopackagesdriver.sh"
+    --     if vim.loop.fs_stat(new_root_dir) ~= nil then
+    --       config.cmd_env = {
+    --         GOPACKAGESDRIVER = gopackagesdriver,
+    --         GOPACKAGESDRIVER_BAZEL_BUILD_FLAGS = "--strategy=GoStdlibList=local",
+    --       }
+    --     end
+    --   end,
+    --   settings = {
+    --     gopls = {
+    --       directoryFilters = {
+    --         "-bazel-app",
+    --         "-bazel-bin",
+    --         "-bazel-out",
+    --         "-bazel-testlogs",
+    --         "-bazel-vistar",
+    --       },
+    --     },
+    --   },
+    -- }
 
     -- lua
     lspconfig.lua_ls.setup {
@@ -76,13 +79,43 @@ local lspconfig = {
     }
 
     -- python
-    lspconfig.pyright.setup {
+    lspconfig.basedpyright.setup {
       flags = { debounce_text_changes = 300 },
       settings = {
-        python = {
+        basedpyright = {
           analysis = {
+            typeCheckingMode = "off",
+            inlayHints = {
+              functionReturnTypes = false,
+              genericTypes = false,
+              variableTypes = false,
+            },
             diagnosticMode = "openFilesOnly",
-            extra_paths = { vim.loop.cwd() },
+          },
+        },
+        exclude = {
+          "bazel-bin",
+          "bazel-out",
+          "bazel-app",
+          "bazel-vistar",
+        },
+      },
+    }
+
+    lspconfig.vtsls.setup {
+      settings = {
+        complete_function_calls = true,
+        typescript = {
+          suggest = {
+            completeFunctionCalls = true,
+          },
+          inlayHints = {
+            parameterNames = { enabled = "literals" },
+            parameterTypes = { enabled = true },
+            variableTypes = { enabled = true },
+            propertyDeclarationTypes = { enabled = true },
+            functionLikeReturnTypes = { enabled = true },
+            enumMemberValues = { enabled = true },
           },
         },
       },

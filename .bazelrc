@@ -1,0 +1,6 @@
+test --jobs=4 --test_output=errors
+common --experimental_remote_cache_async
+common --experimental_repository_cache_hardlinks
+common --remote_cache=grpc://bazel-remote-cache:9092
+common --repository_cache=~/.cache/bazel-repository
+build --incompatible_strict_action_env

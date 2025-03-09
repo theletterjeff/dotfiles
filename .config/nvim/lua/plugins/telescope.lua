@@ -38,7 +38,12 @@ return {
     },
     { "<leader>fw", "<cmd>Telescope live_grep<CR>",  desc = "Live grep" },
     { "<leader>fb", "<cmd>Telescope buffers<cr>",    desc = "Find file in buffers" },
-    { "<leader>fo", "<cmd>Telescope oldfiles<CR>",   desc = "Find recent file" },
+    {
+      "<leader>fd",
+      "<cmd>lua require'telescope.builtin'.live_grep({ grep_open_files = true })<CR>",
+      desc = "Grep open buffers",
+    },
+    { "<leader>fo", "<cmd>Telescope oldfiles<CR>", desc = "Find recent file" },
   },
   config = function()
     local actions = require("telescope.actions")

@@ -4,6 +4,7 @@ local g = vim.g
 
 -------------------------------------- globals -----------------------------------------
 g.toggle_theme_icon = "   "
+g.bazel_cmd = "/usr/local/bin/bazel"
 
 -------------------------------------- options -----------------------------------------
 o.shell = "/usr/bin/bash -i"
@@ -11,6 +12,18 @@ o.laststatus = 3
 o.showmode = false
 
 o.clipboard = "unnamedplus"
+g.clipboard = {
+  name = 'xclip',
+  copy = {
+    ['+'] = 'xclip -selection clipboard',
+    ['*'] = 'xclip -selection primary',
+  },
+  paste = {
+    ['+'] = 'xclip -selection clipboard -o',
+    ['*'] = 'xclip -selection primary -o',
+  },
+  cache_enabled = 1,
+}
 o.cursorline = true
 o.cursorlineopt = "both"
 o.colorcolumn = "80"
@@ -34,12 +47,13 @@ vim.o.expandtab = true -- use spaces instead of tabs
 set_indent("bzl", 4)
 set_indent("confg", 4)
 set_indent("go", 4, false)
+set_indent("java", 2)
 set_indent("lua", 2)
 set_indent("markdown", 4)
 set_indent("proto", 2)
 set_indent("scala", 2)
 set_indent("sh", 4)
-set_indent("sql", 4)
+set_indent("sql", 2)
 set_indent("typescript", 2)
 set_indent("typescriptreact", 2)
 
@@ -82,7 +96,6 @@ opt.whichwrap:append "<>[]hl"
 
 -- disable some default providers
 vim.g["loaded_node_provider"] = 0
-vim.g["loaded_python3_provider"] = 0
 vim.g["loaded_perl_provider"] = 0
 vim.g["loaded_ruby_provider"] = 0
 

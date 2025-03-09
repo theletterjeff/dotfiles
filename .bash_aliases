@@ -44,7 +44,7 @@ toggl-t ()
 
 # chat gpt
 alias gpt='chatgpt-cli --model=gpt-3.5-turbo'
-alias gpt-4='chatgpt-cli --model=gpt-4o'
+alias gpt-4='chatgpt-cli --model=gpt-4o --multiline'
 gpt-c ()
 {
     chatgpt-cli --context="$1"
@@ -84,6 +84,33 @@ if [ "$(uname)" == "$UBUNTU_UNAME" ]; then
 	# job svc (called in dewr)
 	alias job-svc="bazel run //svc/behavioral/job/server/deploy:http-server-cmd \
 		-- -c $PWD/local.json"
+
+    # copies to clipboard so that i can paste & inspect without it showing up
+    # in my bash history
+    copy_ssm_value() {
+        AWS_PROFILE=AdEngineerProduction aws ssm get-parameter \
+            --name $1 \
+            --with-decryption \
+            --query Parameter.Value \
+            --output text \
+            | xclip -selection clipboard
+    }
+
+    # github
+    # add reviewers to a PR. run this after pushing the PR. takes the PR
+    # number as an argument
+    add_github_reviewers() {
+        gh pr edit $1 \
+            --add-reviewer vistar-jadams \
+            --add-reviewer dmansen \
+            --add-reviewer vistar-klevin \
+            --add-reviewer neskandary-vistar \
+            --add-reviewer nick-vistar
+    }
+    alias gh-rev=add_github_reviewers
+
+    # reset DNS
+    alias cloudflare-dns="resolvectl dns wlp0s20f3 1.1.1.1 1.0.0.1"
 
 # macos config
 elif [ "$(uname)" == "$MACOS_UNAME" ]; then

@@ -2,6 +2,7 @@
 
 # load modular variable files
 [ -f $HOME/.env_vars ] && . $HOME/.env_vars
+[ -f $HOME/.env_vars_secret ] && . $HOME/.env_vars_secret
 [ -f $HOME/.bash_aliases ] && . $HOME/.bash_aliases
 [ -f $HOME/.path_extensions ] && . $HOME/.path_extensions
 
@@ -38,10 +39,8 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+# uncomment for a colored prompt, if the terminal has the capability
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -76,26 +75,12 @@ if [ "$(uname)" = "$UBUNTU_UNAME" ]; then
     if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
         debian_chroot=$(cat /etc/debian_chroot)
     fi
-    
-    if [ "$color_prompt" = yes ]; then
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    else
-        PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    fi
-    unset color_prompt force_color_prompt
-    
-    # If this is an xterm set the title to user@host:dir
-    case "$TERM" in
-    xterm*|rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-        ;;
-    *)
-        ;;
-    esac
+
+    export PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] $ '
 
 # MacOS config
 elif [ "$(uname)" = "$MACOS_UNAME" ]; then
-    
+
     [ -s $NVM_DIR/nvm.sh ] && . $NVM_DIR/nvm.sh
     [ -s $NVM_DIR/bash_completion ] && . $NVM_DIR/bash_completion
 

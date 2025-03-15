@@ -30,9 +30,9 @@ RUN apt-get update && apt-get install -y xz-utils \
         && ln -s /usr/local/lib/nodejs/bin/npx /usr/local/bin/npx
 
 # nvim
-RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz \
+RUN curl -LO https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.tar.gz\
         && rm -rf /opt/nvim \
-        && tar -C /opt -xvf nvim-linux64.tar.gz
+        && tar -C /opt -xvf nvim-linux-x86_64.tar.gz
 
 # tmux
 RUN apt-get update && apt-get install -y \
@@ -48,6 +48,37 @@ RUN curl -LO https://github.com/tmux/tmux/releases/download/3.4/tmux-3.4.tar.gz 
         && ./configure \
         && make \
         && make install
+
+# latest git version
+RUN apt-get update && \
+    apt-get install -y \
+    build-essential \
+    dh-autoreconf \
+    libcurl4-gnutls-dev \
+    libexpat1-dev \
+    gettext \
+    libz-dev \
+    libssl-dev \
+    wget && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+RUN wget https://www.kernel.org/pub/software/scm/git/git-2.31.0.tar.gz && \
+    tar -zxf git-2.31.0.tar.gz && \
+    cd git-2.31.0 && \
+    make prefix=/usr/local all && \
+    make prefix=/usr/local install && \
+    cd .. && \
+    rm -rf git-2.31.0 git-2.31.0.tar.gz
+
+# rendering special characters
+RUN apt-get update && \
+    apt-get install -y locales && \
+    rm -rf /var/lib/apt/lists/*
+RUN locale-gen en_US.UTF-8 && \
+    update-locale LANG=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 # ripgrep (required for telescope in nvim)
 RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/13.0.0/ripgrep_13.0.0_amd64.deb \
@@ -125,6 +156,9 @@ RUN python3 -m pip install \
         togglCli==3.0.0 \
         git+https://github.com/theletterjeff/chatgpt-cli # works with Python 3.9
 ENV DISPLAY ":0"
+
+# hg binary for diffview
+RUN apt-get update && apt-get install -y mercurial
 
 # permissions of home directory & cache (done last to catch most subdirs)
 RUN chown -R jmartin:jmartin $HOME && chmod -R 700 $HOME \
